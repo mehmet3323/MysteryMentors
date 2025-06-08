@@ -8,8 +8,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
   app.post("/api/contact", async (req, res) => {
     try {
+      console.log("Contact form data received:", req.body);
       const validatedData = insertContactMessageSchema.parse(req.body);
+      console.log("Validated data:", validatedData);
       const message = await storage.createContactMessage(validatedData);
+      console.log("Message created:", message);
       
       res.json({ 
         success: true, 
@@ -17,6 +20,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         id: message.id 
       });
     } catch (error) {
+      console.error("Contact form error:", error);
       if (error instanceof z.ZodError) {
         res.status(400).json({ 
           success: false, 
@@ -26,7 +30,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ 
           success: false, 
-          message: "İç sunucu hatası" 
+          message: "İç sunucu hatası",
+          error: error.message 
         });
       }
     }

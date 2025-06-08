@@ -19,12 +19,12 @@ interface GitHubRepo {
 
 export function useGitHubStats(username: string) {
   const userQuery = useQuery({
-    queryKey: ['/api/github', username],
+    queryKey: [`/api/github/${username}`],
     enabled: !!username,
   });
 
   const reposQuery = useQuery({
-    queryKey: ['/api/github', username, 'repos'],
+    queryKey: [`/api/github/${username}/repos`],
     enabled: !!username,
   });
 

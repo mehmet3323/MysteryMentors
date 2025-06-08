@@ -324,6 +324,13 @@ export default function Portfolio() {
                       </div>
                       <span className="text-sm text-primary font-medium">2023-2024</span>
                     </div>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h4 className="font-medium">Code23 Mobil Programlama Eğitimi</h4>
+                        <p className="text-sm text-muted-foreground">Code23</p>
+                      </div>
+                      <span className="text-sm text-primary font-medium">2024-2025</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
