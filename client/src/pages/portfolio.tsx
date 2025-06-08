@@ -234,7 +234,7 @@ export default function Portfolio() {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 animate-spin" style={{animationDuration: "8s"}}></div>
               <div className="absolute inset-1 rounded-full bg-gray-900"></div>
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400" 
+                src="https://media.licdn.com/dms/image/v2/D4D35AQH_wwvaj68UyA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1710167849005?e=1750006800&v=beta&t=9ekvfbPYi9twUkrrejBkfMhIM_4hyFwiH8k8BrGAc0M" 
                 alt="Mehmet Müjdeci" 
                 className="absolute inset-2 w-44 h-44 rounded-full object-cover"
               />
