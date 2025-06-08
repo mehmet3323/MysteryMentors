@@ -93,11 +93,15 @@
   }
 
   .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
   }
 
   .dark .glass-effect {
-    @apply bg-black/30 border-white/10;
+    @apply bg-black/20 border-white/10;
+  }
+
+  .card-premium {
+    @apply bg-gradient-to-br from-white/95 to-white/80 dark:from-gray-900/95 dark:to-gray-800/80 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl;
   }
 
   .skill-bar {

@@ -141,7 +141,7 @@ export default function Portfolio() {
       await apiRequest("POST", "/api/contact", contactForm);
       toast({
         title: "Mesaj Gönderildi!",
-        description: "Mesajınız başarıyla gönderildi. En kısa sürede dönüş yapacağım.",
+        description: "Mesajınız sistemde saklandı ve mjdc360@gmail.com adresine yönlendirildi. En kısa sürede dönüş yapacağım.",
       });
       setContactForm({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
@@ -156,8 +156,10 @@ export default function Portfolio() {
   const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
     <a
       href={href}
-      className={`transition-colors hover:text-primary ${
-        activeSection === href.slice(1) ? "text-primary" : "text-muted-foreground"
+      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+        activeSection === href.slice(1) 
+          ? "bg-primary text-primary-foreground shadow-lg" 
+          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
       }`}
       onClick={() => setIsMenuOpen(false)}
     >
@@ -168,13 +170,21 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="font-bold text-xl gradient-text">MM</div>
+      <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-background/95 backdrop-blur-lg border-b border-border/40 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
+                <span className="font-bold text-lg text-white">MM</span>
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="font-bold text-lg gradient-text">Mehmet Müjdeci</h1>
+                <p className="text-xs text-muted-foreground">Yazılım Mühendisi</p>
+              </div>
+            </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-1 bg-muted/30 rounded-full p-1">
               <NavLink href="#home">Ana Sayfa</NavLink>
               <NavLink href="#about">Hakkımda</NavLink>
               <NavLink href="#skills">Yetenekler</NavLink>
@@ -182,23 +192,23 @@ export default function Portfolio() {
               <NavLink href="#contact">İletişim</NavLink>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="hover-lift"
+                className="rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300"
               >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="md:hidden"
+                className="md:hidden rounded-full hover:bg-primary/10"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
           </div>
@@ -206,8 +216,8 @@ export default function Portfolio() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-background border-t">
-            <div className="px-4 py-2 space-y-2">
+          <div className="md:hidden bg-background/95 backdrop-blur-lg border-t border-border/40">
+            <div className="px-6 py-4 space-y-2">
               <NavLink href="#home">Ana Sayfa</NavLink>
               <NavLink href="#about">Hakkımda</NavLink>
               <NavLink href="#skills">Yetenekler</NavLink>
@@ -220,7 +230,7 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center gradient-bg overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
         
         {/* Animated Background Elements */}
         <div className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full floating-animation"></div>
@@ -262,7 +272,7 @@ export default function Portfolio() {
                   İletişime Geç
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary hover-lift">
+              <Button asChild variant="outline" size="lg" className="border-white/80 text-white bg-white/10 hover:bg-white hover:text-primary transition-all duration-300 hover-lift backdrop-blur-sm">
                 <a href="#projects">
                   <Code className="mr-2 h-4 w-4" />
                   Projelerimi Gör
@@ -290,8 +300,8 @@ export default function Portfolio() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <Card className="hover-lift">
-                <CardContent className="p-6">
+              <Card className="hover-lift card-premium">
+                <CardContent className="p-8">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <GraduationCap className="mr-3 text-primary" />
                     Eğitim
