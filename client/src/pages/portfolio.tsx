@@ -313,8 +313,8 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
 
-              <Card className="hover-lift">
-                <CardContent className="p-6">
+              <Card className="hover-lift card-premium">
+                <CardContent className="p-8">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <Award className="mr-3 text-primary" />
                     Sertifikalar
@@ -359,8 +359,8 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
 
-              <Card className="hover-lift">
-                <CardContent className="p-6">
+              <Card className="hover-lift card-premium">
+                <CardContent className="p-8">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <Briefcase className="mr-3 text-primary" />
                     İş Deneyimi
@@ -372,8 +372,8 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
 
-              <Card className="hover-lift">
-                <CardContent className="p-6">
+              <Card className="hover-lift card-premium">
+                <CardContent className="p-8">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <Users className="mr-3 text-primary" />
                     Diller
