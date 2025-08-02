@@ -5,10 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 import { 
   Moon, 
   Sun, 
@@ -29,8 +26,7 @@ import {
   Code,
   Briefcase,
   GraduationCap,
-  Award,
-  Send
+  Award
 } from "lucide-react";
 
 export default function Portfolio() {
@@ -41,13 +37,6 @@ export default function Portfolio() {
   const [skillsInView, setSkillsInView] = useState(false);
 
   const { stats, featuredProjects, isLoading } = useGitHubStats("mehmet3323");
-
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
 
   // Navigation scroll detection
   useEffect(() => {
@@ -134,24 +123,6 @@ export default function Portfolio() {
       gradient: "from-indigo-600 via-purple-600 to-pink-600",
     },
   ];
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await apiRequest("POST", "/api/contact", contactForm);
-      toast({
-        title: "Mesaj Gönderildi!",
-        description: "Mesajınız sistemde saklandı ve mjdc360@gmail.com adresine yönlendirildi. En kısa sürede dönüş yapacağım.",
-      });
-      setContactForm({ name: "", email: "", subject: "", message: "" });
-    } catch (error) {
-      toast({
-        title: "Hata",
-        description: "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
     <a
@@ -465,49 +436,16 @@ export default function Portfolio() {
             </Card>
           </div>
 
-          {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
-              <Card key={project.title} className="overflow-hidden hover-lift">
-                <div className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-black/10"></div>
-                  <div className="absolute top-4 left-4 text-4xl">{project.icon}</div>
-                  <div className="absolute bottom-4 right-4 flex gap-2">
-                    {project.github && (
-                      <Button asChild size="icon" variant="secondary" className="bg-white/20 hover:bg-white/30">
-                        <a href={project.github} target="_blank" rel="noopener noreferrer">
-                          <Github className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    )}
-                    {project.demo && (
-                      <Button asChild size="icon" variant="secondary" className="bg-white/20 hover:bg-white/30">
-                        <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    )}
-                  </div>
+          {/* GitHub Projects */}
+          <div className="mt-8">
+            <h3 className="text-2xl font-bold mb-8 text-center">GitHub Repolarım</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {isLoading ? (
+                <div className="col-span-full text-center py-8">
+                  <p>GitHub repoları yükleniyor...</p>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">{tech}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Featured GitHub Projects */}
-          {featuredProjects.length > 0 && (
-            <div className="mt-16">
-              <h3 className="text-2xl font-bold mb-8 text-center">Featured GitHub Projects</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredProjects.map((repo) => (
+              ) : featuredProjects && featuredProjects.length > 0 ? (
+                featuredProjects.map((repo) => (
                   <Card key={repo.name} className="hover-lift">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
@@ -519,7 +457,7 @@ export default function Portfolio() {
                         </Button>
                       </div>
                       <p className="text-muted-foreground text-sm mb-4">
-                        {repo.description || "No description available"}
+                        {repo.description || "Açıklama bulunmuyor"}
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -541,10 +479,14 @@ export default function Portfolio() {
                       </div>
                     </CardContent>
                   </Card>
-                ))}
-              </div>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-8">
+                  <p>Hiçbir GitHub reposu bulunamadı</p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </section>
 
@@ -554,11 +496,11 @@ export default function Portfolio() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">İletişim</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Benimle iletişime geçmek için aşağıdaki form veya iletişim bilgilerini kullanabilirsiniz
+              Benimle iletişime geçmek için aşağıdaki iletişim bilgilerini kullanabilirsiniz
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="mx-auto max-w-xl">
             {/* Contact Information */}
             <div className="space-y-8">
               <Card className="hover-lift">
@@ -597,12 +539,12 @@ export default function Portfolio() {
                       <div>
                         <h4 className="font-semibold">LinkedIn</h4>
                         <a 
-                          href="https://www.linkedin.com/in/mujdeci" 
+                          href="https://www.linkedin.com/in/m%C3%BCjdeci/" 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-primary hover:underline"
                         >
-                          linkedin.com/in/mujdeci
+                          linkedin.com/in/m%C3%BCjdeci
                         </a>
                       </div>
                     </div>
@@ -639,81 +581,6 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Contact Form */}
-            <Card className="hover-lift">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-semibold mb-6">Mesaj Gönder</h3>
-                
-                <form onSubmit={handleContactSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-2">
-                        Adınız
-                      </label>
-                      <Input
-                        id="name"
-                        type="text"
-                        required
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
-                        className="transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-2">
-                        Email
-                      </label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={contactForm.email}
-                        onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
-                        className="transition-colors"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                      Konu
-                    </label>
-                    <Input
-                      id="subject"
-                      type="text"
-                      required
-                      value={contactForm.subject}
-                      onChange={(e) => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
-                      className="transition-colors"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2">
-                      Mesajınız
-                    </label>
-                    <Textarea
-                      id="message"
-                      rows={5}
-                      required
-                      value={contactForm.message}
-                      onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
-                      className="transition-colors resize-none"
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full gradient-bg hover:opacity-90 hover-lift"
-                    size="lg"
-                  >
-                    <Send className="mr-2 h-4 w-4" />
-                    Mesaj Gönder
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
@@ -732,7 +599,7 @@ export default function Portfolio() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="icon" className="hover-lift">
-                <a href="https://www.linkedin.com/in/mujdeci" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/m%C3%BCjdeci/" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="h-5 w-5" />
                 </a>
               </Button>

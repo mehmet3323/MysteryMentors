@@ -19,12 +19,26 @@ interface GitHubRepo {
 
 export function useGitHubStats(username: string) {
   const userQuery = useQuery({
-    queryKey: [`/api/github/${username}`],
+    queryKey: [`github-user-${username}`],
+    queryFn: async () => {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      return response.json();
+    },
     enabled: !!username,
   });
 
   const reposQuery = useQuery({
-    queryKey: [`/api/github/${username}/repos`],
+    queryKey: [`github-repos-${username}`],
+    queryFn: async () => {
+      const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      return response.json();
+    },
     enabled: !!username,
   });
 
@@ -38,13 +52,11 @@ export function useGitHubStats(username: string) {
     followers: userData?.followers || 0,
   };
 
-  const featuredProjects = reposData
-    ?.filter(repo => repo.stargazers_count > 0 || repo.forks_count > 0)
-    ?.slice(0, 6) || [];
+  const allProjects = reposData || [];
 
   return {
     stats,
-    featuredProjects,
+    featuredProjects: allProjects,
     isLoading: userQuery.isLoading || reposQuery.isLoading,
     error: userQuery.error || reposQuery.error,
   };

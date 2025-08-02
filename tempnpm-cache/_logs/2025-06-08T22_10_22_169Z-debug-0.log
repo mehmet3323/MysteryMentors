@@ -1,0 +1,19 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\Mhmtm\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.2.0
+2 info using node@v20.18.0
+3 silly config load:file:C:\Users\Mhmtm\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\Mhmtm\OneDrive\Masaüstü\MysteryMentors\.npmrc
+5 silly config load:file:C:\Users\Mhmtm\.npmrc
+6 silly config load:file:C:\Users\Mhmtm\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm run deploy
+8 verbose argv "run" "deploy"
+9 verbose logfile logs-max:10 dir:C:\Users\Mhmtm\OneDrive\Masaüstü\MysteryMentors\tempnpm-cache\_logs\2025-06-08T22_10_22_169Z-
+10 verbose logfile C:\Users\Mhmtm\OneDrive\Masaüstü\MysteryMentors\tempnpm-cache\_logs\2025-06-08T22_10_22_169Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 verbose cwd C:\Users\Mhmtm\OneDrive\Masaüstü\MysteryMentors
+14 verbose os Windows_NT 10.0.26100
+15 verbose node v20.18.0
+16 verbose npm  v11.2.0
+17 verbose exit 0
+18 info ok
