@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import profileImage from "@/assets/profile.png";
+import { ContactForm } from "@/components/ContactForm";
 import { 
   Moon, 
   Sun, 
@@ -510,8 +511,7 @@ export default function Portfolio() {
             </p>
           </div>
 
-          <div className="mx-auto max-w-xl">
-            {/* Contact Information */}
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-8">
               <Card className="hover-lift">
                 <CardContent className="p-8">
@@ -524,8 +524,8 @@ export default function Portfolio() {
                       </div>
                       <div>
                         <h4 className="font-semibold">Email</h4>
-                        <a href="mailto:mjdc360@gmail.com" className="text-primary hover:underline">
-                          mjdc360@gmail.com
+                        <a href="mailto:mehmet5434866@gmail.com" className="text-primary hover:underline">
+                          mehmet5434866@gmail.com
                         </a>
                       </div>
                     </div>
@@ -591,6 +591,13 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
             </div>
+
+            <div className="space-y-4">
+              <div className="text-center lg:text-left">
+                <h3 className="text-2xl font-semibold">Hızlı Mesaj</h3>
+              </div>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
@@ -614,7 +621,7 @@ export default function Portfolio() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="icon" className="hover-lift">
-                <a href="mailto:mjdc360@gmail.com">
+                <a href="mailto:mehmet5434866@gmail.com">
                   <Mail className="h-5 w-5" />
                 </a>
               </Button>

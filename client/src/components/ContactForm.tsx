@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 
 export function ContactForm() {
   const { toast } = useToast();
@@ -13,7 +14,8 @@ export function ContactForm() {
     name: "",
     email: "",
     subject: "",
-    message: ""
+    message: "",
+    company: "", // honeypot (bots usually fill this)
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -26,9 +28,27 @@ export function ContactForm() {
     setIsSubmitting(true);
     
     try {
+      if (formData.company.trim().length > 0) {
+        // Pretend success for bots.
+        toast({
+          title: "Teşekkürler!",
+          description: "Mesajınız alındı. En kısa sürede size dönüş yapacağız.",
+        });
+        setFormData({ name: "", email: "", subject: "", message: "", company: "" });
+        return;
+      }
+
+      const res = await apiRequest("POST", "/api/contact", {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
+
+      const body = (await res.json()) as { success?: boolean; message?: string };
       toast({
-        title: "Teşekkürler!",
-        description: "Mesajınız alındı. En kısa sürede size dönüş yapacağız.",
+        title: body?.success ? "Gönderildi" : "Teşekkürler!",
+        description: body?.message || "Mesajınız alındı. En kısa sürede size dönüş yapacağız.",
       });
       
       // Formu sıfırla
@@ -36,7 +56,8 @@ export function ContactForm() {
         name: "",
         email: "",
         subject: "",
-        message: ""
+        message: "",
+        company: "",
       });
     } catch (error) {
       toast({
@@ -53,6 +74,19 @@ export function ContactForm() {
     <Card className="hover-lift">
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Honeypot */}
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
@@ -119,7 +153,7 @@ export function ContactForm() {
             disabled={isSubmitting}
           >
             <Send className="mr-2 h-4 w-4" />
-            Gönder
+            {isSubmitting ? "Gönderiliyor..." : "Gönder"}
           </Button>
         </form>
       </CardContent>
