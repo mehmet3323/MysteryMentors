@@ -52,7 +52,10 @@ function defaultProxyBase() {
   // CORS nedeniyle GitHub device-flow endpointleri tarayıcıdan direkt çağrıda çoğu zaman engellenir.
   // Proxy (örn. Cloudflare Worker) kullanımı için VITE_GITHUB_OAUTH_PROXY ayarlanabilir.
   const env = (import.meta as any).env || {};
-  return (env.VITE_GITHUB_OAUTH_PROXY as string | undefined) || "";
+  const fromEnv = (env.VITE_GITHUB_OAUTH_PROXY as string | undefined) || "";
+  const fromConfig =
+    (typeof window !== "undefined" && (window as any).__MM_CONFIG__?.githubOAuthProxy) || "";
+  return fromEnv || fromConfig || "";
 }
 
 function withProxy(url: string) {

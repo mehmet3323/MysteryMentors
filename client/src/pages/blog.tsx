@@ -111,7 +111,12 @@ async function createIssue(token: string, payload: { title: string; body: string
 
 export default function Blog() {
   const env = (import.meta as any).env || {};
-  const clientId = (env.VITE_GITHUB_CLIENT_ID as string | undefined) || "";
+  const clientId =
+    ((typeof window !== "undefined" && (window as any).__MM_CONFIG__?.githubClientId) as
+      | string
+      | undefined) ||
+    (env.VITE_GITHUB_CLIENT_ID as string | undefined) ||
+    "";
 
   const [token, setToken] = useState<string | null>(() => getStoredToken());
   const [isComposerOpen, setIsComposerOpen] = useState(false);
