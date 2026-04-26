@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import profileImage from "@/assets/profile.png";
 import { 
   Moon, 
   Sun, 
@@ -37,6 +38,7 @@ export default function Portfolio() {
   const [skillsInView, setSkillsInView] = useState(false);
 
   const { stats, featuredProjects, isLoading } = useGitHubStats("mehmet3323");
+  const profileImageUrl = profileImage;
 
   // Navigation scroll detection
   useEffect(() => {
@@ -215,9 +217,17 @@ export default function Portfolio() {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 animate-spin" style={{animationDuration: "8s"}}></div>
               <div className="absolute inset-1 rounded-full bg-gray-900"></div>
               <img 
-                src="https://media.licdn.com/dms/image/v2/D4D35AQH_wwvaj68UyA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1710167849005?e=1750006800&v=beta&t=9ekvfbPYi9twUkrrejBkfMhIM_4hyFwiH8k8BrGAc0M" 
+                src={profileImageUrl}
                 alt="Mehmet Müjdeci" 
-                className="absolute inset-2 w-44 h-44 rounded-full object-cover"
+                className="absolute inset-2 w-44 h-44 rounded-full object-cover object-[center_20%]"
+                loading="eager"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const img = e.currentTarget;
+                  if (img.dataset.fallbackApplied === "1") return;
+                  img.dataset.fallbackApplied = "1";
+                  img.src = "https://github.com/mehmet3323.png";
+                }}
               />
             </div>
 
@@ -539,7 +549,7 @@ export default function Portfolio() {
                       <div>
                         <h4 className="font-semibold">LinkedIn</h4>
                         <a 
-                          href="https://www.linkedin.com/in/m%C3%BCjdeci/" 
+                          href="https://www.linkedin.com/in/m%C3%BCjdeci/?skipRedirect=true" 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-primary hover:underline"
@@ -599,7 +609,7 @@ export default function Portfolio() {
                 </a>
               </Button>
               <Button asChild variant="outline" size="icon" className="hover-lift">
-                <a href="https://www.linkedin.com/in/m%C3%BCjdeci/" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/m%C3%BCjdeci/?skipRedirect=true" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="h-5 w-5" />
                 </a>
               </Button>

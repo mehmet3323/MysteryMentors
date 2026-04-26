@@ -4,7 +4,9 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
-  base: "/MysteryMentors/",
+  // GitHub Pages: repo name subpath ("/MysteryMentors/").
+  // Local / other deploys: root ("/") to avoid 404 on built assets.
+  base: process.env.DEPLOY_TARGET === "gh-pages" ? "/MysteryMentors/" : "/",
   plugins: [
     react(),
     runtimeErrorOverlay(),
