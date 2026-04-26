@@ -165,7 +165,7 @@ export default function Portfolio() {
               <NavLink href="#skills">Yetenekler</NavLink>
               <NavLink href="#projects">Projeler</NavLink>
               <a
-                href={`${baseUrl}blog`}
+                href={`${baseUrl}#/blog`}
                 className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -205,7 +205,7 @@ export default function Portfolio() {
               <NavLink href="#skills">Yetenekler</NavLink>
               <NavLink href="#projects">Projeler</NavLink>
               <a
-                href={`${baseUrl}blog`}
+                href={`${baseUrl}#/blog`}
                 className="block px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 onClick={() => setIsMenuOpen(false)}
               >

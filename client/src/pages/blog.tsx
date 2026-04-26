@@ -86,7 +86,7 @@ export default function Blog() {
       <div className="border-b bg-background/95 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Button asChild variant="ghost" className="gap-2">
-            <a href={baseUrl()}>
+            <a href={`${baseUrl()}#/`}>
               <ArrowLeft className="h-4 w-4" />
               Ana Sayfa
             </a>
