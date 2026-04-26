@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Send } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
 
 export function ContactForm() {
   const { toast } = useToast();
@@ -38,17 +37,21 @@ export function ContactForm() {
         return;
       }
 
-      const res = await apiRequest("POST", "/api/contact", {
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-      });
+      const to = "mehmet5434866@gmail.com";
+      const subject = `İş / İletişim: ${formData.subject}`.trim();
+      const body = [
+        `Ad: ${formData.name}`,
+        `Email: ${formData.email}`,
+        "",
+        formData.message,
+      ].join("\n");
 
-      const body = (await res.json()) as { success?: boolean; message?: string };
+      const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+
       toast({
-        title: body?.success ? "Gönderildi" : "Teşekkürler!",
-        description: body?.message || "Mesajınız alındı. En kısa sürede size dönüş yapacağız.",
+        title: "Mail uygulaması açıldı",
+        description: "Mesajın taslağı hazırlandı. Göndermek için mail uygulamanda onayla.",
       });
       
       // Formu sıfırla
@@ -62,7 +65,7 @@ export function ContactForm() {
     } catch (error) {
       toast({
         title: "Hata!",
-        description: "Mesajınız gönderilirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.",
+        description: "Mail taslağı hazırlanamadı. Lütfen direkt e‑posta ile iletişime geçin.",
         variant: "destructive"
       });
     } finally {
