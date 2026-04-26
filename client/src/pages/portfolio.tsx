@@ -526,7 +526,7 @@ export default function Portfolio() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
+          <div className="max-w-3xl mx-auto">
             <div className="space-y-8">
               <Card className="hover-lift">
                 <CardContent className="p-8">
@@ -606,38 +606,6 @@ export default function Portfolio() {
                 </CardContent>
               </Card>
             </div>
-
-            <Card className="hover-lift">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-semibold mb-6">Hızlı İletişim</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Button asChild size="lg" className="w-full">
-                    <a href="mailto:mehmet5434866@gmail.com">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Email Aç
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="w-full">
-                    <a href="tel:+905432743329">
-                      <Phone className="mr-2 h-4 w-4" />
-                      Ara
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="w-full">
-                    <a href="https://www.linkedin.com/in/m%C3%BCjdeci/?skipRedirect=true" target="_blank" rel="noopener noreferrer">
-                      <Linkedin className="mr-2 h-4 w-4" />
-                      LinkedIn
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="w-full">
-                    <a href="https://github.com/mehmet3323" target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
-                      GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
