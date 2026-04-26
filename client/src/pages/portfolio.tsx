@@ -36,6 +36,7 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [skillsInView, setSkillsInView] = useState(false);
+  const [isOnHero, setIsOnHero] = useState(true);
 
   const { stats, featuredProjects, isLoading } = useGitHubStats("mehmet3323");
   const profileImageUrl = profileImage;
@@ -43,6 +44,7 @@ export default function Portfolio() {
   // Navigation scroll detection
   useEffect(() => {
     const handleScroll = () => {
+      setIsOnHero(window.scrollY < 40);
       const sections = ["home", "about", "skills", "projects", "contact"];
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
@@ -58,6 +60,7 @@ export default function Portfolio() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -140,12 +143,22 @@ export default function Portfolio() {
     </a>
   );
 
-  const baseUrl = (import.meta as any).env?.BASE_URL || "/";
+  const linkBaseClass =
+    "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300";
+  const linkMutedClass = isOnHero
+    ? "text-white/90 hover:text-white hover:bg-white/10"
+    : "text-muted-foreground hover:text-foreground hover:bg-muted/50";
 
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-background/95 backdrop-blur-lg border-b border-border/40 shadow-lg">
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-lg border-b shadow-lg ${
+          isOnHero
+            ? "bg-black/25 border-white/10"
+            : "bg-background/95 border-border/40"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-3">
@@ -153,25 +166,78 @@ export default function Portfolio() {
                 <span className="font-bold text-lg text-white">MM</span>
               </div>
               <div className="hidden sm:block">
-                <h1 className="font-bold text-lg gradient-text">Mehmet Müjdeci</h1>
-                <p className="text-xs text-muted-foreground">Yazılım Mühendisi</p>
+                <h1 className={`font-bold text-lg ${isOnHero ? "text-white" : "gradient-text"}`}>Mehmet Müjdeci</h1>
+                <p className={`text-xs ${isOnHero ? "text-white/80" : "text-muted-foreground"}`}>Yazılım Mühendisi</p>
               </div>
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1 bg-muted/30 rounded-full p-1">
-              <NavLink href="#home">Ana Sayfa</NavLink>
-              <NavLink href="#about">Hakkımda</NavLink>
-              <NavLink href="#skills">Yetenekler</NavLink>
-              <NavLink href="#projects">Projeler</NavLink>
+            <div className={`hidden md:flex items-center space-x-1 rounded-full p-1 ${isOnHero ? "bg-white/10" : "bg-muted/30"}`}>
               <a
-                href={`${baseUrl}#/blog`}
-                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                href="#home"
+                className={`${linkBaseClass} ${
+                  activeSection === "home"
+                    ? isOnHero
+                      ? "bg-white/20 text-white shadow-lg"
+                      : "bg-primary text-primary-foreground shadow-lg"
+                    : linkMutedClass
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Makaleler
+                Ana Sayfa
               </a>
-              <NavLink href="#contact">İletişim</NavLink>
+              <a
+                href="#about"
+                className={`${linkBaseClass} ${
+                  activeSection === "about"
+                    ? isOnHero
+                      ? "bg-white/20 text-white shadow-lg"
+                      : "bg-primary text-primary-foreground shadow-lg"
+                    : linkMutedClass
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Hakkımda
+              </a>
+              <a
+                href="#skills"
+                className={`${linkBaseClass} ${
+                  activeSection === "skills"
+                    ? isOnHero
+                      ? "bg-white/20 text-white shadow-lg"
+                      : "bg-primary text-primary-foreground shadow-lg"
+                    : linkMutedClass
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Yetenekler
+              </a>
+              <a
+                href="#projects"
+                className={`${linkBaseClass} ${
+                  activeSection === "projects"
+                    ? isOnHero
+                      ? "bg-white/20 text-white shadow-lg"
+                      : "bg-primary text-primary-foreground shadow-lg"
+                    : linkMutedClass
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Projeler
+              </a>
+              <a
+                href="#contact"
+                className={`${linkBaseClass} ${
+                  activeSection === "contact"
+                    ? isOnHero
+                      ? "bg-white/20 text-white shadow-lg"
+                      : "bg-primary text-primary-foreground shadow-lg"
+                    : linkMutedClass
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                İletişim
+              </a>
             </div>
 
             <div className="flex items-center space-x-3">
@@ -198,20 +264,13 @@ export default function Portfolio() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-lg border-t border-border/40">
+          <div className={`md:hidden backdrop-blur-lg border-t ${isOnHero ? "bg-black/30 border-white/10" : "bg-background/95 border-border/40"}`}>
             <div className="px-6 py-4 space-y-2">
-              <NavLink href="#home">Ana Sayfa</NavLink>
-              <NavLink href="#about">Hakkımda</NavLink>
-              <NavLink href="#skills">Yetenekler</NavLink>
-              <NavLink href="#projects">Projeler</NavLink>
-              <a
-                href={`${baseUrl}#/blog`}
-                className="block px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Makaleler
-              </a>
-              <NavLink href="#contact">İletişim</NavLink>
+              <a href="#home" className={`${linkBaseClass} block ${linkMutedClass}`} onClick={() => setIsMenuOpen(false)}>Ana Sayfa</a>
+              <a href="#about" className={`${linkBaseClass} block ${linkMutedClass}`} onClick={() => setIsMenuOpen(false)}>Hakkımda</a>
+              <a href="#skills" className={`${linkBaseClass} block ${linkMutedClass}`} onClick={() => setIsMenuOpen(false)}>Yetenekler</a>
+              <a href="#projects" className={`${linkBaseClass} block ${linkMutedClass}`} onClick={() => setIsMenuOpen(false)}>Projeler</a>
+              <a href="#contact" className={`${linkBaseClass} block ${linkMutedClass}`} onClick={() => setIsMenuOpen(false)}>İletişim</a>
             </div>
           </div>
         )}
