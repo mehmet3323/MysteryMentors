@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import profileImage from "@/assets/profile.png";
-import { ContactForm } from "@/components/ContactForm";
 import { 
   Moon, 
   Sun, 
@@ -20,7 +19,6 @@ import {
   Linkedin, 
   ExternalLink,
   Download,
-  FileText,
   ChevronDown,
   Star,
   GitFork,
@@ -38,62 +36,14 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [skillsInView, setSkillsInView] = useState(false);
-  const [activePostSlug, setActivePostSlug] = useState<string | null>(null);
 
   const { stats, featuredProjects, isLoading } = useGitHubStats("mehmet3323");
   const profileImageUrl = profileImage;
 
-  const posts = [
-    {
-      slug: "clean-code-notlarim",
-      title: "Clean Code Notlarım",
-      date: "2026",
-      summary: "Okunabilirlik, isimlendirme, fonksiyon tasarımı ve pratik ipuçları.",
-      tags: ["Yazılım", "Clean Code"],
-      content: [
-        "Bu yazıda clean code ile ilgili kısa notlarımı ve projelerde uyguladığım pratikleri paylaşıyorum.",
-        "",
-        "- İyi isimlendirme: niyeti anlatır",
-        "- Kısa fonksiyonlar, tek sorumluluk",
-        "- Basitlik > karmaşıklık",
-      ].join("\n"),
-    },
-    {
-      slug: "react-performans-kisa-rehber",
-      title: "React Performans: Kısa Rehber",
-      date: "2026",
-      summary: "Memoization, render sebepleri, network ve bundle optimizasyonu.",
-      tags: ["React", "Performans"],
-      content: [
-        "React’te performansı artırmak için temel yaklaşımlar:",
-        "",
-        "- React DevTools ile render’ları izle",
-        "- Memoization’ı doğru yerde kullan",
-        "- Büyük listelerde sanallaştırma",
-      ].join("\n"),
-    },
-    {
-      slug: "stajdan-ogreniklerim",
-      title: "Stajdan Öğrendiklerim",
-      date: "2025",
-      summary: "Takım çalışması, teslim süreçleri ve iletişimin önemi.",
-      tags: ["Kariyer", "Staj"],
-      content: [
-        "Staj sürecinde edindiğim dersleri kısa başlıklar halinde toparladım.",
-        "",
-        "- Günlük küçük ilerleme",
-        "- Net iletişim",
-        "- Kod inceleme kültürü",
-      ].join("\n"),
-    },
-  ];
-
-  const activePost = posts.find((p) => p.slug === activePostSlug) ?? null;
-
   // Navigation scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "skills", "projects", "blog", "hire", "contact"];
+      const sections = ["home", "about", "skills", "projects", "contact"];
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -190,6 +140,8 @@ export default function Portfolio() {
     </a>
   );
 
+  const baseUrl = (import.meta as any).env?.BASE_URL || "/";
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -212,8 +164,13 @@ export default function Portfolio() {
               <NavLink href="#about">Hakkımda</NavLink>
               <NavLink href="#skills">Yetenekler</NavLink>
               <NavLink href="#projects">Projeler</NavLink>
-              <NavLink href="#blog">Makaleler</NavLink>
-              <NavLink href="#hire">İş Teklifi</NavLink>
+              <a
+                href={`${baseUrl}blog`}
+                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Makaleler
+              </a>
               <NavLink href="#contact">İletişim</NavLink>
             </div>
 
@@ -247,8 +204,13 @@ export default function Portfolio() {
               <NavLink href="#about">Hakkımda</NavLink>
               <NavLink href="#skills">Yetenekler</NavLink>
               <NavLink href="#projects">Projeler</NavLink>
-              <NavLink href="#blog">Makaleler</NavLink>
-              <NavLink href="#hire">İş Teklifi</NavLink>
+              <a
+                href={`${baseUrl}blog`}
+                className="block px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Makaleler
+              </a>
               <NavLink href="#contact">İletişim</NavLink>
             </div>
           </div>
@@ -554,137 +516,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Blog Section */}
-      <section id="blog" className="py-20 bg-muted/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">Makaleler</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Yazılım, performans ve kariyer üzerine kısa notlar.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((p) => (
-              <Card key={p.slug} className="hover-lift">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold">{p.title}</h3>
-                      <p className="text-sm text-muted-foreground mt-1">{p.date}</p>
-                    </div>
-                    <FileText className="h-5 w-5 text-primary" />
-                  </div>
-
-                  <p className="text-muted-foreground text-sm mt-4 line-clamp-3">
-                    {p.summary}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {p.tags.map((t) => (
-                      <Badge key={t} variant="secondary" className="bg-background">
-                        {t}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="mt-6">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => setActivePostSlug(p.slug)}
-                    >
-                      Oku
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Basit modal (native) */}
-          {activePost && (
-            <div
-              className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Makale"
-              onClick={() => setActivePostSlug(null)}
-            >
-              <div
-                className="w-full max-w-3xl rounded-2xl bg-background shadow-2xl border p-6 md:p-8"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl font-bold">{activePost.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{activePost.date}</p>
-                  </div>
-                  <Button variant="ghost" size="icon" onClick={() => setActivePostSlug(null)}>
-                    <X className="h-5 w-5" />
-                  </Button>
-                </div>
-
-                <div className="mt-6 whitespace-pre-wrap leading-relaxed text-sm md:text-base text-foreground/90">
-                  {activePost.content}
-                </div>
-
-                <div className="mt-8 flex justify-end">
-                  <Button onClick={() => setActivePostSlug(null)}>Kapat</Button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Hire Section */}
-      <section id="hire" className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">İş Teklifi</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Proje / işbirliği teklifleri için hızlı bir şekilde e‑posta oluşturabiliriz.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <Card className="gradient-bg text-white hover-lift">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-semibold mb-4">Nasıl Çalışırım?</h3>
-                <ul className="space-y-3 text-white/90">
-                  <li>• Hızlı analiz + net plan</li>
-                  <li>• Düzenli iletişim ve teslimatlar</li>
-                  <li>• Temiz kod ve sürdürülebilirlik</li>
-                </ul>
-                <div className="mt-8">
-                  <Button asChild className="bg-white text-primary hover:bg-gray-100">
-                    <a
-                      href={`mailto:mehmet5434866@gmail.com?subject=${encodeURIComponent("İş Teklifi")}&body=${encodeURIComponent(
-                        "Merhaba Mehmet,\n\nKısaca proje/pozisyon detayları:\n- Şirket:\n- Rol:\n- Süre:\n- Bütçe/Ücret:\n\nİletişim:\n- Telefon:\n\nTeşekkürler."
-                      )}`}
-                    >
-                      <Mail className="mr-2 h-4 w-4" />
-                      Teklif Maili Oluştur
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="space-y-4">
-              <div className="text-center lg:text-left">
-                <h3 className="text-2xl font-semibold">Hızlı Mesaj</h3>
-                <p className="text-muted-foreground mt-2">
-                  Form gönderince mail uygulaman açılır ve mesajın taslağı otomatik hazırlanır.
-                </p>
-              </div>
-              <ContactForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-muted/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -776,12 +607,37 @@ export default function Portfolio() {
               </Card>
             </div>
 
-            <div className="space-y-4">
-              <div className="text-center lg:text-left">
-                <h3 className="text-2xl font-semibold">Hızlı Mesaj</h3>
-              </div>
-              <ContactForm />
-            </div>
+            <Card className="hover-lift">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-semibold mb-6">Hızlı İletişim</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Button asChild size="lg" className="w-full">
+                    <a href="mailto:mehmet5434866@gmail.com">
+                      <Mail className="mr-2 h-4 w-4" />
+                      Email Aç
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="w-full">
+                    <a href="tel:+905432743329">
+                      <Phone className="mr-2 h-4 w-4" />
+                      Ara
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="w-full">
+                    <a href="https://www.linkedin.com/in/m%C3%BCjdeci/?skipRedirect=true" target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="mr-2 h-4 w-4" />
+                      LinkedIn
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="w-full">
+                    <a href="https://github.com/mehmet3323" target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-4 w-4" />
+                      GitHub
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
