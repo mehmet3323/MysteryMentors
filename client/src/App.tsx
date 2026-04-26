@@ -11,6 +11,8 @@ import { useCallback, useEffect, useState } from "react";
 function useHashLocation(): [string, (to: string) => void] {
   const getHashPath = () => {
     const raw = window.location.hash || "#/";
+    // Only treat "#/..." as a route. Plain "#section" should not change the SPA route.
+    if (!raw.startsWith("#/")) return "/";
     const path = raw.replace(/^#/, "");
     return path.startsWith("/") ? path : `/${path}`;
   };
